@@ -7,7 +7,7 @@ public class BatalhaNaval {
 
         System.out.println("Batalha Naval!");
         System.out.println();
-        System.out.println("Esse é o BATALHA NAVAL, o jogo onde você deve acertar os navios inimigos que estão escondidos no tabuleiro");
+        System.out.println("Esse é o BATALHA NAVAL, o jogo onde você deve acertar os navios inimigos que estão escondidos no tabuleiro...");
         System.out.println("O tabuleiro contém 5 navios de tamanho 1x1");
         System.out.println("Primeiro você deve definir o tamnho do tabuleiro (mínimo 2x3 ou 3x2)");
 

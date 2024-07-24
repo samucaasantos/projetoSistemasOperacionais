@@ -40,6 +40,61 @@ public class Jogada {
                     System.out.println();
                 }
             }
+
+            /* A partir daqui são só os comandos necessários para escrever o tabuleiro de novo,
+            * então as posições não foram jogadas ficam com "~", as posições que o usuaário atacou e
+            * errou ficam com "O" e as posições que ele acertou com "X" */
+            if (tabuleiro[jogadalinha][jogadacoluna] == 'n') {
+                tabuleiro[jogadalinha][jogadacoluna] = 'x';
+                for (int contl = 0; contl < linha; contl++) {
+                    for (int contc = 0; contc < coluna; contc++) {
+                        if (tabuleiro[contl][contc] == 'x') {
+                            System.out.print("X  ");
+                        }
+                        else if (tabuleiro[contl][contc] == 'o') {
+                            System.out.print("O  ");
+                        }
+                        else {
+                            System.out.print("~  ");
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Você acertou!");
+                System.out.println();
+                System.out.println();
+                navio--;
+            }
+            else if (tabuleiro[jogadalinha][jogadacoluna] == 'a') {
+                tabuleiro[jogadalinha][jogadacoluna] = 'o';
+                for (int contl = 0; contl < linha; contl++) {
+                    for (int contc = 0; contc < coluna; contc++) {
+                        if (tabuleiro[contl][contc] == 'o') {
+                            System.out.print("O  ");
+                        }
+                        else if (tabuleiro[contl][contc] == 'x') {
+                            System.out.print("X  ");
+                        }
+                        else {
+                            System.out.print("~ ");
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Você errou!");
+                System.out.println();
+                System.out.println();
+            }
+            else {
+                System.out.println();
+                System.out.println("Essa posição já foi atacada");
+                System.out.println();
+            }
         }
+        //O contador é usado para informar em quantas tentativas o jogador terminou o jogo
+        System.out.println("Parabéns");
+        System.out.println("Você venceu com " + contador + " tentativas!");
     }
 }

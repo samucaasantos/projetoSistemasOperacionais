@@ -52,8 +52,8 @@ public class Tabuleiro {
 
         //usado para escrever o tabuleiro pela primeira vez
         for (int contl = 0; contl < linha; contl++) {
-            for (int contc = 0; contc < coluna; contc ++) {
-                System.out.println("~  ");
+            for (int contc = 0; contc < coluna; contc++) {
+                System.out.print("~  ");
             }
             pulaLinha();
         }
