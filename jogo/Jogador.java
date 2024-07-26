@@ -1,15 +1,20 @@
 package jogo;
 
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Jogador implements Runnable {
     private final String nome;
     private final char[][] tabuleiro;
+    private final ReentrantLock lock;
+    private final ContadorGlobal contadorGlobal;
     private int acertos = 0;
 
-    public Jogador(String nome, char[][] tabuleiro) {
+    public Jogador(String nome, char[][] tabuleiro, ReentrantLock lock, ContadorGlobal contadorGlobal) {
         this.nome = nome;
         this.tabuleiro = tabuleiro;
+        this.lock = lock;
+        this.contadorGlobal = contadorGlobal;
     }
 
     public String getNome() {
@@ -23,30 +28,36 @@ public class Jogador implements Runnable {
     @Override
     public void run() {
         Random rand = new Random();
-        int naviosRestantes = 5;
 
-        while (naviosRestantes > 0) {
-            int linha = rand.nextInt(tabuleiro.length);
-            int coluna = rand.nextInt(tabuleiro[0].length);
-
-            if (tabuleiro[linha][coluna] == 'n') {
-                tabuleiro[linha][coluna] = 'x';
-                acertos++;
-                naviosRestantes--;
-                System.out.println(nome + " acertou um navio em (" + (linha + 1) + ", " + (coluna + 1) + ")");
-            } else if (tabuleiro[linha][coluna] == 'a') {
-                tabuleiro[linha][coluna] = 'o';
-                System.out.println(nome + " errou um tiro em (" + (linha + 1) + ", " + (coluna + 1) + ")");
-            } else {
-                System.out.println(nome + " tentou uma posição já atacada em (" + (linha + 1) + ", " + (coluna + 1) + ")");
-            }
-
-            imprimirTabuleiro();
-
+        while (contadorGlobal.getNaviosRestantes() > 0) {
+            lock.lock();
             try {
-                Thread.sleep(100); // Aguarda um tempo antes da próxima tentativa
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                if (contadorGlobal.getNaviosRestantes() <= 0) {
+                    break;
+                }
+
+                int linha = rand.nextInt(tabuleiro.length);
+                int coluna = rand.nextInt(tabuleiro[0].length);
+
+                if (tabuleiro[linha][coluna] == 'n') {
+                    tabuleiro[linha][coluna] = 'x';
+                    acertos++;
+                    contadorGlobal.decrementar();
+                    System.out.println(nome + " acertou um navio em (" + (linha + 1) + ", " + (coluna + 1) + ")");
+                } else if (tabuleiro[linha][coluna] == 'a') {
+                    tabuleiro[linha][coluna] = 'o';
+                    System.out.println(nome + " errou um tiro em (" + (linha + 1) + ", " + (coluna + 1) + ")");
+                }
+
+                imprimirTabuleiro();
+
+            } finally {
+                lock.unlock();
+                try {
+                    Thread.sleep(100); // Aguarda um tempo antes da próxima tentativa
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

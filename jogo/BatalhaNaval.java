@@ -1,5 +1,7 @@
 package jogo;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class BatalhaNaval {
     public static void main(String[] args) {
         System.out.println("Batalha Naval!");
@@ -13,9 +15,12 @@ public class BatalhaNaval {
         int nlinha = tab.length;
         int ncoluna = tab[0].length;
 
+        ReentrantLock lock = new ReentrantLock();
+        ContadorGlobal contadorGlobal = new ContadorGlobal(5);
+
         // Cria duas threads representando os jogadores
-        Jogador jogador1 = new Jogador("Jogador 1", tab);
-        Jogador jogador2 = new Jogador("Jogador 2", tab);
+        Jogador jogador1 = new Jogador("Jogador 1", tab, lock, contadorGlobal);
+        Jogador jogador2 = new Jogador("Jogador 2", tab, lock, contadorGlobal);
 
         // Inicia as threads
         Thread t1 = new Thread(jogador1);
