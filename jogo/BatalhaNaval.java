@@ -7,7 +7,7 @@ public class BatalhaNaval {
         System.out.println("Batalha Naval!");
         System.out.println();
         System.out.println("Esse é o BATALHA NAVAL, o jogo onde você deve acertar os navios inimigos que estão escondidos no tabuleiro...");
-        System.out.println("O tabuleiro contém 5 navios de tamanho 1x1");
+        System.out.println("O tabuleiro contém 6 navios de tamanho 1x1");
         System.out.println("Primeiro você deve definir o tamanho do tabuleiro (mínimo 2x3 ou 3x2)");
 
         // Gera o tabuleiro do tamanho que o usuário quiser
@@ -16,7 +16,7 @@ public class BatalhaNaval {
         int ncoluna = tab[0].length;
 
         ReentrantLock lock = new ReentrantLock();
-        ContadorGlobal contadorGlobal = new ContadorGlobal(5);
+        ContadorGlobal contadorGlobal = new ContadorGlobal(6);
 
         // Cria duas threads representando os jogadores
         Jogador jogador1 = new Jogador("Jogador 1", tab, lock, contadorGlobal);
