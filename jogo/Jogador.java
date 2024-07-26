@@ -30,6 +30,7 @@ public class Jogador implements Runnable {
         Random rand = new Random();
 
         while (contadorGlobal.getNaviosRestantes() > 0) {
+            boolean acaoRealizada = false;
             lock.lock();
             try {
                 if (contadorGlobal.getNaviosRestantes() <= 0) {
@@ -44,15 +45,17 @@ public class Jogador implements Runnable {
                     acertos++;
                     contadorGlobal.decrementar();
                     System.out.println(nome + " acertou um navio em (" + (linha + 1) + ", " + (coluna + 1) + ")");
+                    acaoRealizada = true;
                 } else if (tabuleiro[linha][coluna] == 'a') {
                     tabuleiro[linha][coluna] = 'o';
                     System.out.println(nome + " errou um tiro em (" + (linha + 1) + ", " + (coluna + 1) + ")");
+                    acaoRealizada = true;
                 }
-
-                imprimirTabuleiro();
-
             } finally {
                 lock.unlock();
+                if (acaoRealizada) {
+                    imprimirTabuleiro();
+                }
                 try {
                     Thread.sleep(100); // Aguarda um tempo antes da próxima tentativa
                 } catch (InterruptedException e) {
