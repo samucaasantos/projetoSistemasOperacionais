@@ -1,6 +1,5 @@
 package jogo;
 
-import java.util.concurrent.locks.ReentrantLock;
 
 public class BatalhaNavalSemaforo {
     public static void main(String[] args) {
