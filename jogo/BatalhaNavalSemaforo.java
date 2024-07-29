@@ -2,12 +2,12 @@ package jogo;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-public class BatalhaNaval {
+public class BatalhaNavalSemaforo {
     public static void main(String[] args) {
         System.out.println("Batalha Naval!");
         System.out.println();
         System.out.println("Esse é o BATALHA NAVAL, o jogo onde você deve acertar os navios inimigos que estão escondidos no tabuleiro...");
-        System.out.println("O tabuleiro contém 6 navios de tamanho 1x1");
+        System.out.println("O tabuleiro contém 5 navios de tamanho 1x1");
         System.out.println("Primeiro você deve definir o tamanho do tabuleiro (mínimo 2x4 ou 4x2)");
 
         // Gera o tabuleiro do tamanho que o usuário quiser
@@ -15,12 +15,14 @@ public class BatalhaNaval {
         int nlinha = tab.length;
         int ncoluna = tab[0].length;
 
-        ReentrantLock lock = new ReentrantLock();
+        Semaforo semaforo = new Semaforo(1);
+
+        // Contador global de navios
         ContadorGlobal contadorGlobal = new ContadorGlobal(8);
 
         // Cria duas threads representando os jogadores
-        Jogador jogador1 = new Jogador("Jogador 1", tab, lock, contadorGlobal);
-        Jogador jogador2 = new Jogador("Jogador 2", tab, lock, contadorGlobal);
+        JogadorSemaforo jogador1 = new JogadorSemaforo("Jogador 1", tab, semaforo, contadorGlobal);
+        JogadorSemaforo jogador2 = new JogadorSemaforo("Jogador 2", tab, semaforo, contadorGlobal);
 
         // Inicia as threads
         Thread t1 = new Thread(jogador1);
