@@ -3,12 +3,14 @@ package jogo;
 import java.util.Random;
 
 public class JogadorMutex implements Runnable {
+    //atributos:
     private final String nome;
     private final char[][] tabuleiro;
     private final Mutex mutex;
     private final ContadorGlobal contadorGlobal;
     private int acertos = 0;
 
+    //construtor
     public JogadorMutex(String nome, char[][] tabuleiro, Mutex mutex, ContadorGlobal contadorGlobal) {
         this.nome = nome;
         this.tabuleiro = tabuleiro;
@@ -16,14 +18,17 @@ public class JogadorMutex implements Runnable {
         this.contadorGlobal = contadorGlobal;
     }
 
+    //Retorna o nome do jogador
     public String getNome() {
         return nome;
     }
 
+    //Retorna os acertos do jogador
     public int getAcertos() {
         return acertos;
     }
 
+    //Método principal da thread do jogador, onde ele joga até que todos os navios sejam afundados
     @Override
     public void run() {
         Random rand = new Random();
@@ -64,6 +69,7 @@ public class JogadorMutex implements Runnable {
         }
     }
 
+    //Imprime o estado atual do tabuleiro
     private void imprimirTabuleiro() {
         synchronized (tabuleiro) {
             for (int i = 0; i < tabuleiro.length; i++) {

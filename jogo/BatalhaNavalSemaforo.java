@@ -31,6 +31,7 @@ public class BatalhaNavalSemaforo {
         t2.start();
 
         try {
+            // Aguarda as threads terminarem
             t1.join();
             t2.join();
         } catch (InterruptedException e) {

@@ -3,12 +3,14 @@ package jogo;
 import java.util.Random;
 
 public class JogadorMensagens implements Runnable {
+    //atributos:
     private final String nome;
     private final char[][] tabuleiro;
     private final FilaMensagens filaMensagens;
     private final ContadorGlobalMensagens contadorGlobal;
     private int acertos = 0;
 
+    //construtor
     public JogadorMensagens(String nome, char[][] tabuleiro, FilaMensagens filaMensagens, ContadorGlobalMensagens contadorGlobal) {
         this.nome = nome;
         this.tabuleiro = tabuleiro;
@@ -16,14 +18,17 @@ public class JogadorMensagens implements Runnable {
         this.contadorGlobal = contadorGlobal;
     }
 
+    //Retorna o nome do jogador
     public String getNome() {
         return nome;
     }
 
+    //Retorna os acertos do jogador
     public int getAcertos() {
         return acertos;
     }
 
+    //Método principal da thread do jogador, onde ele joga até que todos os navios sejam afundados
     @Override
     public void run() {
         Random rand = new Random();
@@ -69,6 +74,7 @@ public class JogadorMensagens implements Runnable {
         }
     }
 
+    //Imprime o estado atual do tabuleiro
     private void imprimirTabuleiro() {
         synchronized (tabuleiro) {
             for (int i = 0; i < tabuleiro.length; i++) {
