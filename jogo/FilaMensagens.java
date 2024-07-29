@@ -7,13 +7,13 @@ import java.util.Queue;
 public class FilaMensagens {
     private final Queue<String> fila = new LinkedList<>(); //Fila de mensagens usada para sincronização entre threads.
 
-    // Envia uma mensagem para a fila
+    // Método que adiciona uma mensagem na fila e notifica uma thread bloqueada
     public synchronized void enviar(String mensagem) {
         fila.add(mensagem);
         notify();
     }
 
-    // Recebe uma mensagem da fila
+    // Método que retira e retorna uma mensagem da fila, aguardando se a fila estiver vazia
     public synchronized String receber() {
         while (fila.isEmpty()) {
             try {
