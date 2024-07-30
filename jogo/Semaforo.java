@@ -2,29 +2,28 @@ package jogo;
 
 //solução semáforo
 public class Semaforo {
-    private int valor;
+    private int contador;
 
-    // Construtor que inicializa o valor do semáforo
-    public Semaforo(int valorInicial) {
-        this.valor = valorInicial;
+    public Semaforo(int contadorInicial) {
+        this.contador = contadorInicial;
     }
 
-    // Método que decrementa o valor do semáforo, bloqueando se o valor for menor ou igual a zero
     public synchronized void p() {
-        while (valor <= 0) {
+        System.out.println(Thread.currentThread().getName() + " tentando acessar (P).");
+        while (contador == 0) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        valor--;
+        contador--;
+        System.out.println(Thread.currentThread().getName() + " conseguiu acessar (P).");
     }
 
-    // Método que incrementa o valor do semáforo e notifica uma thread bloqueada
     public synchronized void v() {
-        valor++;
+        contador++;
+        System.out.println(Thread.currentThread().getName() + " liberou o acesso (V).");
         notify();
     }
 }
-
