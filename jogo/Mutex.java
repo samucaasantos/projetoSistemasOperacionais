@@ -7,7 +7,7 @@ public class Mutex {
     public synchronized void lock(String nome) {
         while (locked) {
             try {
-                System.out.println(nome + " tentando acessar a zona de condição de corrida (tabuleiro).");
+                System.out.println(nome + " tentando acessar o tabuleiro.");
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
