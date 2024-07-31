@@ -34,10 +34,12 @@ public class JogadorBarreira implements Runnable {
         Random rand = new Random();
 
         while (contadorGlobal.getNaviosRestantes() > 0) {
-            int linha = rand.nextInt(tabuleiro.length);
-            int coluna = rand.nextInt(tabuleiro[0].length);
-
+            System.out.println(nome + " tentando acessar o tabuleiro.");
             synchronized (tabuleiro) {
+                System.out.println(nome + " conseguiu acessar o tabuleiro.");
+                int linha = rand.nextInt(tabuleiro.length);
+                int coluna = rand.nextInt(tabuleiro[0].length);
+
                 if (tabuleiro[linha][coluna] == 'n') {
                     tabuleiro[linha][coluna] = 'x';
                     acertos++;
@@ -47,18 +49,18 @@ public class JogadorBarreira implements Runnable {
                     tabuleiro[linha][coluna] = 'o';
                     System.out.println(nome + " errou um tiro em (" + (linha + 1) + ", " + (coluna + 1) + ")");
                 }
+
+                imprimirTabuleiro();
+                System.out.println(nome + " liberou o tabuleiro.");
             }
-
-            imprimirTabuleiro();
-
-            // Sincroniza com a barreira
-            barreira.await();
 
             try {
                 Thread.sleep(100); // Aguarda um tempo antes da próxima tentativa
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            barreira.await(nome); // Sincronização na barreira
         }
     }
 

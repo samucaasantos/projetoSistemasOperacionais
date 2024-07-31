@@ -35,7 +35,7 @@ public class JogadorSemaforo implements Runnable {
 
         while (contadorGlobal.getNaviosRestantes() > 0) {
             boolean acaoRealizada = false;
-            semaforo.p();
+            semaforo.p(nome);
             try {
                 if (contadorGlobal.getNaviosRestantes() <= 0) {
                     break;
@@ -56,7 +56,7 @@ public class JogadorSemaforo implements Runnable {
                     acaoRealizada = true;
                 }
             } finally {
-                semaforo.v();
+                semaforo.v(nome);
                 if (acaoRealizada) {
                     imprimirTabuleiro();
                 }

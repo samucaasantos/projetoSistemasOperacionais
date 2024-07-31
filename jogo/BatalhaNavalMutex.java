@@ -1,5 +1,8 @@
 package jogo;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class BatalhaNavalMutex {
     public static void main(String[] args) {
         System.out.println("Batalha Naval!");
@@ -22,19 +25,15 @@ public class BatalhaNavalMutex {
         JogadorMutex jogador1 = new JogadorMutex("Jogador 1", tab, mutex, contadorGlobal);
         JogadorMutex jogador2 = new JogadorMutex("Jogador 2", tab, mutex, contadorGlobal);
 
-        // Inicia as threads
-        Thread t1 = new Thread(jogador1);
-        Thread t2 = new Thread(jogador2);
 
-        t1.start();
-        t2.start();
+        // Usando ExecutorService para executar as threads de forma assíncrona
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        executor.execute(jogador1);
+        executor.execute(jogador2);
 
-        try {
-            // Aguarda as threads terminarem
-            t1.join();
-            t2.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+            // Aguarda até que todas as threads terminem
         }
 
         // Determina o vencedor

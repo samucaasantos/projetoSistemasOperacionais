@@ -35,7 +35,7 @@ public class JogadorMutex implements Runnable {
 
         while (contadorGlobal.getNaviosRestantes() > 0) {
             boolean acaoRealizada = false;
-            mutex.lock();
+            mutex.lock(nome);
             try {
                 if (contadorGlobal.getNaviosRestantes() <= 0) {
                     break;
@@ -56,7 +56,7 @@ public class JogadorMutex implements Runnable {
                     acaoRealizada = true;
                 }
             } finally {
-                mutex.unlock();
+                mutex.unlock(nome);
                 if (acaoRealizada) {
                     imprimirTabuleiro();
                 }

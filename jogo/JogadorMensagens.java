@@ -6,15 +6,15 @@ public class JogadorMensagens implements Runnable {
     //atributos:
     private final String nome;
     private final char[][] tabuleiro;
-    private final FilaMensagens filaMensagens;
+    private final FilaMensagens filaMensagem;
     private final ContadorGlobalMensagens contadorGlobal;
     private int acertos = 0;
 
     //construtor
-    public JogadorMensagens(String nome, char[][] tabuleiro, FilaMensagens filaMensagens, ContadorGlobalMensagens contadorGlobal) {
+    public JogadorMensagens(String nome, char[][] tabuleiro, FilaMensagens filaMensagem, ContadorGlobalMensagens contadorGlobal) {
         this.nome = nome;
         this.tabuleiro = tabuleiro;
-        this.filaMensagens = filaMensagens;
+        this.filaMensagem = filaMensagem;
         this.contadorGlobal = contadorGlobal;
     }
 
@@ -34,34 +34,24 @@ public class JogadorMensagens implements Runnable {
         Random rand = new Random();
 
         while (contadorGlobal.getNaviosRestantes() > 0) {
-            boolean acaoRealizada = false;
-            String mensagem = nome + " está jogando";
-            filaMensagens.enviar(mensagem);
-            filaMensagens.receber(); // Aguarda sua vez de jogar
-
-            if (contadorGlobal.getNaviosRestantes() <= 0) {
-                break;
-            }
-
-            int linha = rand.nextInt(tabuleiro.length);
-            int coluna = rand.nextInt(tabuleiro[0].length);
-
+            filaMensagem.enviarMensagem("tentando acessar tabuleiro", nome);
             synchronized (tabuleiro) {
+                filaMensagem.enviarMensagem("acessou tabuleiro", nome);
+                int linha = rand.nextInt(tabuleiro.length);
+                int coluna = rand.nextInt(tabuleiro[0].length);
+
                 if (tabuleiro[linha][coluna] == 'n') {
                     tabuleiro[linha][coluna] = 'x';
                     acertos++;
                     contadorGlobal.decrementar();
                     System.out.println(nome + " acertou um navio em (" + (linha + 1) + ", " + (coluna + 1) + ")");
-                    acaoRealizada = true;
                 } else if (tabuleiro[linha][coluna] == 'a') {
                     tabuleiro[linha][coluna] = 'o';
                     System.out.println(nome + " errou um tiro em (" + (linha + 1) + ", " + (coluna + 1) + ")");
-                    acaoRealizada = true;
                 }
-            }
 
-            if (acaoRealizada) {
                 imprimirTabuleiro();
+                filaMensagem.enviarMensagem("liberou tabuleiro", nome);
             }
 
             try {
@@ -69,8 +59,6 @@ public class JogadorMensagens implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            filaMensagens.enviar(mensagem); // Permite que o próximo jogador jogue
         }
     }
 

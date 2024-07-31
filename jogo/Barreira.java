@@ -1,26 +1,27 @@
 package jogo;
 
-public class Barreira {
-    private final int totalThreads;
-    private int waitingThreads = 0;
+import java.util.concurrent.atomic.AtomicInteger;
 
-    public Barreira(int totalThreads) {
-        this.totalThreads = totalThreads;
+public class Barreira {
+    private final int numThreads;
+    private final AtomicInteger count = new AtomicInteger(0);
+    private final AtomicInteger release = new AtomicInteger(0);
+
+    public Barreira(int numThreads) {
+        this.numThreads = numThreads;
     }
 
-    public synchronized void await() {
-        waitingThreads++;
-        System.out.println(Thread.currentThread().getName() + " esperando na barreira. Threads esperando: " + waitingThreads);
-        if (waitingThreads < totalThreads) {
+    public synchronized void await(String nome) {
+        count.incrementAndGet();
+        while (count.get() < numThreads) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } else {
-            waitingThreads = 0;
-            System.out.println(Thread.currentThread().getName() + " liberando a barreira. Todas as threads podem continuar.");
-            notifyAll();
         }
+        release.incrementAndGet();
+        notifyAll();
+        System.out.println(nome + " liberou a barreira.");
     }
 }

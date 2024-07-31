@@ -5,26 +5,25 @@ import java.util.Queue;
 
 //Solução troca de mensagem
 public class FilaMensagens {
-    private Queue<String> fila = new LinkedList<>();
+    private final Queue<String> fila = new LinkedList<>();
 
-    public synchronized void enviar(String mensagem) {
-        System.out.println(Thread.currentThread().getName() + " tentando acessar (enviar).");
+    public synchronized void enviarMensagem(String mensagem, String nome) {
         fila.add(mensagem);
-        System.out.println(Thread.currentThread().getName() + " conseguiu acessar (enviar). Mensagem enviada: " + mensagem);
-        notify();
+        System.out.println(nome + " enviou mensagem: " + mensagem);
+        notifyAll();
     }
 
-    public synchronized String receber() {
-        System.out.println(Thread.currentThread().getName() + " tentando acessar (receber).");
+    public synchronized String receberMensagem(String nome) {
         while (fila.isEmpty()) {
             try {
+                System.out.println(nome + " esperando para receber mensagem.");
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         String mensagem = fila.poll();
-        System.out.println(Thread.currentThread().getName() + " conseguiu acessar (receber). Mensagem recebida: " + mensagem);
+        System.out.println(nome + " recebeu mensagem: " + mensagem);
         return mensagem;
     }
 }
