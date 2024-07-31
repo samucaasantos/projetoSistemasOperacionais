@@ -14,12 +14,12 @@ public class Mutex {
             }
         }
         locked = true;
-        System.out.println(nome + " conseguiu acessar a zona de condição de corrida (tabuleiro).");
+        System.out.println(nome + " conseguiu acessar o tabuleiro.");
     }
 
     public synchronized void unlock(String nome) {
         locked = false;
-        System.out.println(nome + " liberou a zona de condição de corrida (tabuleiro).");
+        System.out.println(nome + " liberou o tabuleiro.");
         notify();
     }
 }
