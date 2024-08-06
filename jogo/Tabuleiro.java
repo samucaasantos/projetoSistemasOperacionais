@@ -19,7 +19,7 @@ public class Tabuleiro {
             System.out.println("Digite o número de colunas do tabuleiro:");
             coluna = input.nextInt();
             if (linha * coluna < 8) {
-                System.out.println("O tabuleiro precisa ter no mínimo 6 espaços");
+                System.out.println("O tabuleiro precisa ter no mínimo 8 espaços");
                 pulaLinha();
             }
         }
